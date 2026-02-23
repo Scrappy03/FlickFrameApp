@@ -3,50 +3,83 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import { getPeoplePage, getShowsPage } from './src/api/tvmaze';
 import Header from './src/components/Header';
 import ShowsList from './src/components/ShowsList';
 import ToggleRow from './src/components/ToggleRow';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('movies');
+  const [activeTab, setActiveTab] = useState('tv');
   const [shows, setShows] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [celebs, setCelebs] = useState([]);
+  const [loadingByTab, setLoadingByTab] = useState({
+    tv: false,
+    celebs: false,
+  });
+  const [errorByTab, setErrorByTab] = useState({
+    tv: null,
+    celebs: null,
+  });
+
+  const updateTabLoading = (tab, value) => {
+    setLoadingByTab((prev) => ({ ...prev, [tab]: value }));
+  };
+
+  const updateTabError = (tab, value) => {
+    setErrorByTab((prev) => ({ ...prev, [tab]: value }));
+  };
 
   const getShows = () => {
-    setIsLoading(true);
-    setError(null);
+    updateTabLoading('tv', true);
+    updateTabError('tv', null);
 
-    fetch('https://api.tvmaze.com/shows?page=0')
+    getShowsPage(0)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(`TVMaze request failed (${response.status})`);
-        }
-
-        return response.json();
-      })
-      .then((json) => {
-        setShows(json);
+        setShows(response);
       })
       .catch((err) => {
-        setError('Failed to load TV shows.');
+        updateTabError('tv', 'Failed to load TV shows.');
         console.error(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        updateTabLoading('tv', false);
+      });
+  };
+
+  const getCelebs = () => {
+    updateTabLoading('celebs', true);
+    updateTabError('celebs', null);
+
+    getPeoplePage(0)
+      .then((response) => {
+        setCelebs(response);
+      })
+      .catch((err) => {
+        updateTabError('celebs', 'Failed to load celebs.');
+        console.error(err);
+      })
+      .finally(() => {
+        updateTabLoading('celebs', false);
       });
   };
 
   useEffect(() => {
-    getShows();
-  }, []);
+    if (activeTab === 'tv' && shows.length === 0 && !loadingByTab.tv) {
+      getShows();
+    }
+
+    if (activeTab === 'celebs' && celebs.length === 0 && !loadingByTab.celebs) {
+      getCelebs();
+    }
+  }, [activeTab]);
 
   const listDataByTab = {
-    movies: [],
     tv: shows,
-    celebs: [],
+    celebs,
   };
   const listData = listDataByTab[activeTab] ?? [];
+  const isLoading = loadingByTab[activeTab];
+  const error = errorByTab[activeTab];
 
   return (
     <SafeAreaProvider>

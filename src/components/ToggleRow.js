@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const toggleOptions = [
-    { id: 'movies', label: 'Movies' },
     { id: 'tv', label: 'TV' },
     { id: 'celebs', label: 'Celebs' },
 ];

@@ -1,9 +1,19 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 
-export default function ShowsList({ data, activeTab, isLoading, error }) {
+export default function ShowsList({
+    data,
+    activeTab,
+    isLoading,
+    error,
+}) {
     const renderItem = ({ item }) => {
-        const title = item.name ?? item.show?.name ?? item.person?.name ?? 'Untitled';
-        const subtitle = item.show?.genres?.length ? item.show.genres.join(' • ') : null;
+        const title = item.name ?? 'Untitled';
+        const subtitle =
+            activeTab === 'celebs'
+                ? item.country?.name ?? null
+                : item.genres?.length
+                    ? item.genres.join(' • ')
+                    : null;
 
         return (
             <View style={styles.card}>
@@ -18,9 +28,7 @@ export default function ShowsList({ data, activeTab, isLoading, error }) {
             ? isLoading
                 ? 'Loading TV shows...'
                 : error || 'No TV shows yet.'
-            : activeTab === 'movies'
-                ? 'No movies yet.'
-                : 'No celebs yet.';
+            : 'No celebs yet.';
 
     return (
         <FlatList
