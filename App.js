@@ -5,12 +5,15 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts, Oswald_600SemiBold } from '@expo-google-fonts/oswald';
 
 import { getPeoplePage, getShowsPage } from './src/api/tvmaze';
+import BottomTabBar from './src/components/BottomTabBar';
 import Header from './src/components/Header';
 import ShowsList from './src/components/ShowsList';
 import ToggleRow from './src/components/ToggleRow';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Oswald_600SemiBold });
+
+  const [activeScreen, setActiveScreen] = useState('home');
 
   const [activeTab, setActiveTab] = useState('tv');
   const [shows, setShows] = useState([]);
@@ -54,6 +57,7 @@ export default function App() {
           isLoading={loading}
           error={error}
         />
+        <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
       </SafeAreaView>
     </SafeAreaProvider>
   );
