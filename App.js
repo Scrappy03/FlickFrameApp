@@ -7,8 +7,10 @@ import { useFonts, Oswald_600SemiBold } from '@expo-google-fonts/oswald';
 import { getPeoplePage, getShowsPage } from './src/api/tvmaze';
 import BottomTabBar from './src/components/BottomTabBar';
 import Header from './src/components/Header';
-import ShowsList from './src/components/ShowsList';
-import ToggleRow from './src/components/ToggleRow';
+import DiscoverScreen from './src/screens/DiscoverScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import WatchlistScreen from './src/screens/WatchlistScreen';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Oswald_600SemiBold });
@@ -50,13 +52,18 @@ export default function App() {
       <SafeAreaView style={styles.screen}>
         <StatusBar style="dark" />
         <Header />
-        <ToggleRow activeTab={activeTab} onChange={setActiveTab} />
-        <ShowsList
-          data={listData}
-          activeTab={activeTab}
-          isLoading={loading}
-          error={error}
-        />
+        {activeScreen === 'home' && (
+          <HomeScreen
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            data={listData}
+            isLoading={loading}
+            error={error}
+          />
+        )}
+        {activeScreen === 'discover' && <DiscoverScreen />}
+        {activeScreen === 'watchlist' && <WatchlistScreen />}
+        {activeScreen === 'profile' && <ProfileScreen />}
         <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
       </SafeAreaView>
     </SafeAreaProvider>
