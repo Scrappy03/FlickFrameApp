@@ -1,28 +1,24 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-const toggleOptions = [
-    { id: 'tv', label: 'TV' },
-    { id: 'celebs', label: 'Celebs' },
-];
-
 export default function ToggleRow({ activeTab, onChange }) {
     return (
         <View style={styles.row}>
-            {toggleOptions.map((option) => {
-                const isActive = option.id === activeTab;
-
-                return (
-                    <Pressable
-                        key={option.id}
-                        onPress={() => onChange(option.id)}
-                        style={[styles.item, isActive && styles.itemActive]}
-                    >
-                        <Text style={[styles.text, isActive && styles.textActive]}>
-                            {option.label}
-                        </Text>
-                    </Pressable>
-                );
-            })}
+            <Pressable
+                onPress={() => onChange('tv')}
+                style={[styles.item, activeTab === 'tv' && styles.itemActive]}
+            >
+                <Text style={[styles.text, activeTab === 'tv' && styles.textActive]}>
+                    TV
+                </Text>
+            </Pressable>
+            <Pressable
+                onPress={() => onChange('celebs')}
+                style={[styles.item, activeTab === 'celebs' && styles.itemActive]}
+            >
+                <Text style={[styles.text, activeTab === 'celebs' && styles.textActive]}>
+                    Celebs
+                </Text>
+            </Pressable>
         </View>
     );
 }

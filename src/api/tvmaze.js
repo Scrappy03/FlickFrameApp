@@ -1,7 +1,7 @@
 const BASE_URL = 'https://api.tvmaze.com';
 
-export async function getShowsPage(page = 0, { signal } = {}) {
-    const response = await fetch(`${BASE_URL}/shows?page=${page}`, { signal });
+export async function getShowsPage(page = 0) {
+    const response = await fetch(`${BASE_URL}/shows?page=${page}`);
 
     if (!response.ok) {
         throw new Error(`TVMaze request failed (${response.status})`);
@@ -10,8 +10,8 @@ export async function getShowsPage(page = 0, { signal } = {}) {
     return response.json();
 }
 
-export async function getPeoplePage(page = 0, { signal } = {}) {
-    const response = await fetch(`${BASE_URL}/people?page=${page}`, { signal });
+export async function getPeoplePage(page = 0) {
+    const response = await fetch(`${BASE_URL}/people?page=${page}`);
 
     if (!response.ok) {
         throw new Error(`TVMaze request failed (${response.status})`);

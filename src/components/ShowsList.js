@@ -8,12 +8,13 @@ export default function ShowsList({
 }) {
     const renderItem = ({ item }) => {
         const title = item.name ?? 'Untitled';
-        const subtitle =
-            activeTab === 'celebs'
-                ? item.country?.name ?? null
-                : item.genres?.length
-                    ? item.genres.join(' • ')
-                    : null;
+
+        let subtitle = null;
+        if (activeTab === 'celebs') {
+            subtitle = item.country?.name ?? null;
+        } else if (item.genres?.length) {
+            subtitle = item.genres.join(' • ');
+        }
 
         return (
             <View style={styles.card}>
@@ -23,12 +24,14 @@ export default function ShowsList({
         );
     };
 
-    const emptyLabel =
-        activeTab === 'tv'
-            ? isLoading
-                ? 'Loading TV shows...'
-                : error || 'No TV shows yet.'
-            : 'No celebs yet.';
+    let emptyLabel = 'No TV shows yet.';
+    if (activeTab === 'tv' && isLoading) {
+        emptyLabel = 'Loading TV shows...';
+    } else if (activeTab === 'tv' && error) {
+        emptyLabel = error;
+    } else if (activeTab === 'celebs') {
+        emptyLabel = 'No celebs yet.';
+    }
 
     return (
         <FlatList
