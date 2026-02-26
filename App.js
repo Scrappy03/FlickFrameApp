@@ -56,8 +56,9 @@ function MainScreen({ navigation }) {
       <StatusBar style="dark" />
       <Header />
       <View style={styles.content}>
-        {activeScreen === 'home' && (
-          <HomeScreen
+        {activeScreen === 'home' && <HomeScreen />}
+        {activeScreen === 'discover' && (
+          <DiscoverScreen
             navigation={navigation}
             activeTab={activeTab}
             onTabChange={setActiveTab}
@@ -66,7 +67,6 @@ function MainScreen({ navigation }) {
             error={error}
           />
         )}
-        {activeScreen === 'discover' && <DiscoverScreen />}
         {activeScreen === 'watchlist' && <WatchlistScreen />}
         {activeScreen === 'profile' && <ProfileScreen />}
       </View>

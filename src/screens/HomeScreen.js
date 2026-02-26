@@ -1,21 +1,26 @@
-import ShowsList from '../components/ShowsList';
-import ToggleRow from '../components/ToggleRow';
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { getShow } from '../api/tvmaze';
+import FeaturedBanner from '../components/FeaturedBanner';
 
-export default function HomeScreen({ navigation, activeTab, onTabChange, data, isLoading, error }) {
-    const handleSelectShow = (show) => {
-        navigation.navigate('ShowDetail', { show });
-    };
+const FEATURED_SHOW_ID = 19; // Supernatural
+
+export default function HomeScreen() {
+    const [featuredShow, setFeaturedShow] = useState(null);
+
+    useEffect(() => {
+        getShow(FEATURED_SHOW_ID).then(setFeaturedShow).catch(console.error);
+    }, []);
 
     return (
-        <>
-            <ToggleRow activeTab={activeTab} onChange={onTabChange} />
-            <ShowsList
-                data={data}
-                activeTab={activeTab}
-                isLoading={isLoading}
-                error={error}
-                onSelectShow={handleSelectShow}
-            />
-        </>
+        <ScrollView style={styles.container}>
+            {featuredShow && <FeaturedBanner show={featuredShow} />}
+        </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});
