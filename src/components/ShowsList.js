@@ -1,10 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function ShowsList({
     data,
     activeTab,
     isLoading,
     error,
+    onSelectShow,
 }) {
     const renderItem = ({ item }) => {
         const title = item.name ?? 'Untitled';
@@ -17,10 +18,10 @@ export default function ShowsList({
         }
 
         return (
-            <View style={styles.card}>
+            <Pressable style={styles.card} onPress={() => onSelectShow?.(item)}>
                 <Text style={styles.cardTitle}>{title}</Text>
                 {subtitle ? <Text style={styles.cardMeta}>{subtitle}</Text> : null}
-            </View>
+            </Pressable>
         );
     };
 

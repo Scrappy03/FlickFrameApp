@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -10,13 +12,15 @@ import Header from './src/components/Header';
 import DiscoverScreen from './src/screens/DiscoverScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import ShowDetailScreen from './src/screens/ShowDetailScreen';
 import WatchlistScreen from './src/screens/WatchlistScreen';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function MainScreen({ navigation }) {
   const [fontsLoaded] = useFonts({ Oswald_600SemiBold });
 
   const [activeScreen, setActiveScreen] = useState('home');
-
   const [activeTab, setActiveTab] = useState('tv');
   const [shows, setShows] = useState([]);
   const [celebs, setCelebs] = useState([]);
@@ -48,24 +52,36 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
+    <SafeAreaView style={styles.screen}>
+      <StatusBar style="dark" />
+      <Header />
+      {activeScreen === 'home' && (
+        <HomeScreen
+          navigation={navigation}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          data={listData}
+          isLoading={loading}
+          error={error}
+        />
+      )}
+      {activeScreen === 'discover' && <DiscoverScreen />}
+      {activeScreen === 'watchlist' && <WatchlistScreen />}
+      {activeScreen === 'profile' && <ProfileScreen />}
+      <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
+    </SafeAreaView>
+  );
+}
+
+export default function App() {
+  return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.screen}>
-        <StatusBar style="dark" />
-        <Header />
-        {activeScreen === 'home' && (
-          <HomeScreen
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            data={listData}
-            isLoading={loading}
-            error={error}
-          />
-        )}
-        {activeScreen === 'discover' && <DiscoverScreen />}
-        {activeScreen === 'watchlist' && <WatchlistScreen />}
-        {activeScreen === 'profile' && <ProfileScreen />}
-        <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
-      </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Main" component={MainScreen} />
+          <Stack.Screen name="ShowDetail" component={ShowDetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }

@@ -1,7 +1,11 @@
 import ShowsList from '../components/ShowsList';
 import ToggleRow from '../components/ToggleRow';
 
-export default function HomeScreen({ activeTab, onTabChange, data, isLoading, error }) {
+export default function HomeScreen({ navigation, activeTab, onTabChange, data, isLoading, error }) {
+    const handleSelectShow = (show) => {
+        navigation.navigate('ShowDetail', { show });
+    };
+
     return (
         <>
             <ToggleRow activeTab={activeTab} onChange={onTabChange} />
@@ -10,6 +14,7 @@ export default function HomeScreen({ activeTab, onTabChange, data, isLoading, er
                 activeTab={activeTab}
                 isLoading={isLoading}
                 error={error}
+                onSelectShow={handleSelectShow}
             />
         </>
     );
