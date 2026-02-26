@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts, Oswald_600SemiBold } from '@expo-google-fonts/oswald';
 
@@ -55,19 +55,21 @@ function MainScreen({ navigation }) {
     <SafeAreaView style={styles.screen}>
       <StatusBar style="dark" />
       <Header />
-      {activeScreen === 'home' && (
-        <HomeScreen
-          navigation={navigation}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          data={listData}
-          isLoading={loading}
-          error={error}
-        />
-      )}
-      {activeScreen === 'discover' && <DiscoverScreen />}
-      {activeScreen === 'watchlist' && <WatchlistScreen />}
-      {activeScreen === 'profile' && <ProfileScreen />}
+      <View style={styles.content}>
+        {activeScreen === 'home' && (
+          <HomeScreen
+            navigation={navigation}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            data={listData}
+            isLoading={loading}
+            error={error}
+          />
+        )}
+        {activeScreen === 'discover' && <DiscoverScreen />}
+        {activeScreen === 'watchlist' && <WatchlistScreen />}
+        {activeScreen === 'profile' && <ProfileScreen />}
+      </View>
       <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
     </SafeAreaView>
   );
@@ -75,7 +77,7 @@ function MainScreen({ navigation }) {
 
 export default function App() {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{ backgroundColor: '#ffffff' }}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Main" component={MainScreen} />
@@ -90,5 +92,9 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: '#ffffff',
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#F3F4F6',
   },
 });

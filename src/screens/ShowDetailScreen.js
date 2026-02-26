@@ -53,7 +53,7 @@ export default function ShowDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#F3F4F6',
     },
     container: {
         paddingBottom: 32,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: '100%',
         aspectRatio: 2 / 3,
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#F3F4F6',
     },
     image: {
         width: '100%',
