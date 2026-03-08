@@ -25,13 +25,11 @@ export default function ShowsList({
         );
     };
 
-    let emptyLabel = 'No TV shows yet.';
-    if (activeTab === 'tv' && isLoading) {
-        emptyLabel = 'Loading TV shows...';
-    } else if (activeTab === 'tv' && error) {
+    let emptyLabel = activeTab === 'celebs' ? 'No celebs yet.' : 'No TV shows yet.';
+    if (isLoading) {
+        emptyLabel = activeTab === 'celebs' ? 'Loading celebs...' : 'Loading TV shows...';
+    } else if (error) {
         emptyLabel = error;
-    } else if (activeTab === 'celebs') {
-        emptyLabel = 'No celebs yet.';
     }
 
     return (
