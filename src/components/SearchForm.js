@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { Search, X } from 'lucide-react-native';
 
-export default function SearchForm({ onSearch, activeQuery, type }) {
+export default function SearchForm({ onSearch, activeQuery, type, shouldFocus }) {
     const [text, setText] = useState('');
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (shouldFocus) {
+            inputRef.current?.focus();
+        }
+    }, [shouldFocus]);
 
     const submitHandler = () => {
         Keyboard.dismiss();
@@ -21,6 +28,7 @@ export default function SearchForm({ onSearch, activeQuery, type }) {
         <View style={styles.container}>
             <View style={styles.inputRow}>
                 <TextInput
+                    ref={inputRef}
                     style={styles.input}
                     placeholder={`Search ${type}...`}
                     placeholderTextColor="#999999"

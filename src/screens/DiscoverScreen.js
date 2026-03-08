@@ -4,7 +4,7 @@ import ShowsList from '../components/ShowsList';
 import ToggleRow from '../components/ToggleRow';
 import { searchShows, searchPeople } from '../api/tvmaze';
 
-export default function DiscoverScreen({ navigation, activeTab, onTabChange, data, isLoading, error }) {
+export default function DiscoverScreen({ navigation, activeTab, onTabChange, data, isLoading, error, focusSearch }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [searchLoading, setSearchLoading] = useState(false);
@@ -55,6 +55,7 @@ export default function DiscoverScreen({ navigation, activeTab, onTabChange, dat
                 onSearch={setSearchQuery}
                 activeQuery={searchQuery}
                 type={activeTab === 'celebs' ? 'celebs' : 'TV shows'}
+                shouldFocus={focusSearch}
             />
             <ToggleRow activeTab={activeTab} onChange={onTabChange} />
             <ShowsList

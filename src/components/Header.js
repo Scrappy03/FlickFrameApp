@@ -1,16 +1,18 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Search, Bell } from 'lucide-react-native';
 
-export default function Header() {
+export default function Header({ activeScreen, onSearchPress }) {
     return (
         <View style={styles.header}>
             <Text style={styles.brand}>
                 <Text style={styles.brandBlue}>Flick</Text>Frame
             </Text>
             <View style={styles.icons}>
-                <Pressable style={styles.iconButton}>
-                    <Search size={22} color="#111111" />
-                </Pressable>
+                {activeScreen !== 'discover' && (
+                    <Pressable style={styles.iconButton} onPress={onSearchPress}>
+                        <Search size={22} color="#111111" />
+                    </Pressable>
+                )}
                 <Pressable style={styles.iconButton}>
                     <Bell size={22} color="#111111" />
                 </Pressable>

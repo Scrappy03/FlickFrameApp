@@ -21,6 +21,13 @@ function MainScreen({ navigation }) {
   const [fontsLoaded] = useFonts({ Oswald_600SemiBold });
 
   const [activeScreen, setActiveScreen] = useState('home');
+  const [focusSearch, setFocusSearch] = useState(0);
+
+  useEffect(() => {
+    if (activeScreen !== 'discover') {
+      setFocusSearch(0);
+    }
+  }, [activeScreen]);
   const [activeTab, setActiveTab] = useState('tv');
   const [shows, setShows] = useState([]);
   const [celebs, setCelebs] = useState([]);
@@ -54,7 +61,7 @@ function MainScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBar style="dark" />
-      <Header />
+      <Header activeScreen={activeScreen} onSearchPress={() => { setActiveScreen('discover'); setFocusSearch(n => n + 1); }} />
       <View style={styles.content}>
         {activeScreen === 'home' && <HomeScreen />}
         {activeScreen === 'discover' && (
@@ -65,6 +72,7 @@ function MainScreen({ navigation }) {
             data={listData}
             isLoading={loading}
             error={error}
+            focusSearch={focusSearch}
           />
         )}
         {activeScreen === 'watchlist' && <WatchlistScreen />}
