@@ -1,4 +1,8 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+
+const numColumns = 3;
+const hPadding = 12;
+const itemGap = 8;
 
 export default function ShowsList({
     data,
@@ -9,18 +13,21 @@ export default function ShowsList({
 }) {
     const renderItem = ({ item }) => {
         const title = item.name ?? 'Untitled';
-
-        let subtitle = null;
-        if (activeTab === 'celebs') {
-            subtitle = item.country?.name ?? null;
-        } else if (item.genres?.length) {
-            subtitle = item.genres.join(' • ');
-        }
+        const imageUri = item.image?.medium;
 
         return (
-            <Pressable style={styles.card} onPress={() => onSelectShow?.(item)}>
-                <Text style={styles.cardTitle}>{title}</Text>
-                {subtitle ? <Text style={styles.cardMeta}>{subtitle}</Text> : null}
+            <Pressable
+                style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+                onPress={() => onSelectShow?.(item)}
+            >
+                {imageUri ? (
+                    <Image source={{ uri: imageUri }} style={[styles.posterBase, styles.poster]} resizeMode="cover" />
+                ) : (
+                    <View style={[styles.posterBase, styles.posterPlaceholder]}>
+                        <Text style={styles.placeholderText}>{title.charAt(0)}</Text>
+                    </View>
+                )}
+                <Text style={styles.cardTitle} numberOfLines={2}>{title}</Text>
             </Pressable>
         );
     };
@@ -36,37 +43,61 @@ export default function ShowsList({
         <FlatList
             contentContainerStyle={styles.listContent}
             data={data}
+            numColumns={numColumns}
             keyExtractor={(item, index) =>
                 item.id ? String(item.id) : `${activeTab}-${index}`
             }
             renderItem={renderItem}
-            ListEmptyComponent={<Text style={styles.emptyText}>{emptyLabel}</Text>}
+            ListEmptyComponent={
+                <Text style={styles.emptyText}>{emptyLabel}</Text>
+            }
+            columnWrapperStyle={styles.row}
         />
     );
 }
 
 const styles = StyleSheet.create({
     listContent: {
-        paddingHorizontal: 16,
+        paddingHorizontal: hPadding,
         paddingTop: 12,
         paddingBottom: 24,
         flexGrow: 1,
     },
-    emptyText: {
-        color: '#777777',
+    row: {
+        gap: itemGap,
+        marginBottom: itemGap,
     },
     card: {
-        paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#eeeeee',
+        flex: 1,
+    },
+    cardPressed: {
+        opacity: 0.75,
+    },
+    posterBase: {
+        width: '100%',
+        aspectRatio: 1 / 1.45,
+        borderRadius: 6,
+    },
+    poster: {
+        backgroundColor: '#e0e0e0',
+    },
+    posterPlaceholder: {
+        backgroundColor: '#2a2a2a',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    placeholderText: {
+        fontSize: 28,
+        color: '#888888',
+        fontWeight: '600',
     },
     cardTitle: {
-        fontSize: 16,
+        marginTop: 5,
+        fontSize: 11,
         color: '#111111',
+        lineHeight: 15,
     },
-    cardMeta: {
-        marginTop: 4,
-        fontSize: 13,
+    emptyText: {
         color: '#777777',
     },
 });

@@ -1,7 +1,7 @@
-const BASE_URL = 'https://api.tvmaze.com';
+const baseUrl = 'https://api.tvmaze.com';
 
 export async function getShowsPage(page = 0) {
-    const response = await fetch(`${BASE_URL}/shows?page=${page}`);
+    const response = await fetch(`${baseUrl}/shows?page=${page}`);
 
     if (!response.ok) {
         throw new Error(`TVMaze request failed (${response.status})`);
@@ -11,7 +11,7 @@ export async function getShowsPage(page = 0) {
 }
 
 export async function getPeoplePage(page = 0) {
-    const response = await fetch(`${BASE_URL}/people?page=${page}`);
+    const response = await fetch(`${baseUrl}/people?page=${page}`);
 
     if (!response.ok) {
         throw new Error(`TVMaze request failed (${response.status})`);
@@ -21,7 +21,7 @@ export async function getPeoplePage(page = 0) {
 }
 
 export async function getShow(id) {
-    const response = await fetch(`${BASE_URL}/shows/${id}`);
+    const response = await fetch(`${baseUrl}/shows/${id}`);
 
     if (!response.ok) {
         throw new Error(`TVMaze request failed (${response.status})`);
@@ -31,7 +31,7 @@ export async function getShow(id) {
 }
 
 export async function searchShows(query, signal) {
-    const url = `${BASE_URL}/search/shows?q=${encodeURIComponent(query)}`;
+    const url = `${baseUrl}/search/shows?q=${encodeURIComponent(query)}`;
     const response = await fetch(url, {
         method: 'GET',
         headers: { Accept: 'application/json' },
@@ -47,7 +47,7 @@ export async function searchShows(query, signal) {
 }
 
 export async function searchPeople(query, signal) {
-    const url = `${BASE_URL}/search/people?q=${encodeURIComponent(query)}`;
+    const url = `${baseUrl}/search/people?q=${encodeURIComponent(query)}`;
     const response = await fetch(url, {
         method: 'GET',
         headers: { Accept: 'application/json' },
