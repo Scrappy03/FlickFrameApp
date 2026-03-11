@@ -27,24 +27,22 @@ export default function SearchForm({ onSearch, activeQuery, type, shouldFocus })
     return (
         <View style={styles.container}>
             <View style={styles.inputRow}>
+                <Search size={16} color="#999999" style={styles.searchIcon} />
                 <TextInput
                     ref={inputRef}
                     style={styles.input}
                     placeholder={`Search ${type}...`}
-                    placeholderTextColor="#999999"
+                    placeholderTextColor="#777777"
                     value={text}
                     onChangeText={setText}
                     onSubmitEditing={submitHandler}
                     returnKeyType="search"
                 />
-                {activeQuery ? (
+                {text.length > 0 ? (
                     <Pressable style={styles.clearButton} onPress={clearHandler}>
-                        <X size={18} color="#555555" />
+                        <X size={16} color="#999999" />
                     </Pressable>
                 ) : null}
-                <Pressable style={styles.searchButton} onPress={submitHandler}>
-                    <Search size={18} color="#ffffff" />
-                </Pressable>
             </View>
         </View>
     );
@@ -59,29 +57,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#e6e6e6',
-        borderRadius: 8,
-        backgroundColor: '#ffffff',
-        overflow: 'hidden',
+        borderColor: '#E6E6E6',
+        borderRadius: 12,
+        backgroundColor: 'rgba(255, 255, 255, 0.75)',
+        paddingHorizontal: 12,
+        height: 44,
+    },
+    searchIcon: {
+        marginRight: 8,
+        lineHeight: 0,
     },
     input: {
         flex: 1,
-        height: 42,
-        paddingHorizontal: 12,
         fontSize: 14,
         color: '#111111',
     },
     clearButton: {
-        width: 36,
-        height: 42,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    searchButton: {
-        width: 42,
-        height: 42,
-        backgroundColor: '#111111',
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding: 4,
+        marginLeft: 4,
     },
 });

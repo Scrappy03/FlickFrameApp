@@ -4,7 +4,7 @@ export default function ToggleRow({ activeTab, onChange }) {
     return (
         <View style={styles.row}>
             <Pressable
-                onPress={() => onChange('tv')}
+                onPressIn={() => onChange('tv')}
                 style={[styles.item, activeTab === 'tv' && styles.itemActive]}
             >
                 <Text style={[styles.text, activeTab === 'tv' && styles.textActive]}>
@@ -12,7 +12,7 @@ export default function ToggleRow({ activeTab, onChange }) {
                 </Text>
             </Pressable>
             <Pressable
-                onPress={() => onChange('celebs')}
+                onPressIn={() => onChange('celebs')}
                 style={[styles.item, activeTab === 'celebs' && styles.itemActive]}
             >
                 <Text style={[styles.text, activeTab === 'celebs' && styles.textActive]}>
@@ -28,12 +28,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginTop: 8,
         marginBottom: 12,
-        padding: 4,
+        padding: 3,
         borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#e6e6e6',
+        backgroundColor: '#e6e6e6ea',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        gap: 3,
     },
     item: {
         flex: 1,
@@ -42,13 +41,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     itemActive: {
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#ffffff',
+
     },
     text: {
         fontSize: 14,
-        color: '#555555',
+        fontWeight: '500',
+        color: '#6B6B6B',
     },
     textActive: {
-        color: '#111111',
+        color: '#292929',
+        fontWeight: '600',
     },
 });
