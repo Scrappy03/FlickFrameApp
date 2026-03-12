@@ -54,7 +54,7 @@ function MainScreen({ navigation }) {
       <StatusBar style="dark" />
       <Header activeScreen={activeScreen} onSearchPress={() => { setActiveScreen('discover'); setFocusSearch(n => n + 1); }} />
       <View style={styles.content}>
-        {activeScreen === 'home' && <HomeScreen />}
+        {activeScreen === 'home' && <HomeScreen navigation={navigation} />}
         {activeScreen === 'discover' && (
           <DiscoverScreen
             navigation={navigation}
