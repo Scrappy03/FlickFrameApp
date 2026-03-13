@@ -17,28 +17,31 @@ export default function DiscoverScreen({ navigation, activeTab, onTabChange, dat
             return;
         }
 
-        const controller = new AbortController();
+        let isCurrent = true;
 
         setSearchLoading(true);
         setSearchError(null);
         setSearchResults([]);
 
         const searchFn = activeTab === 'celebs' ? searchPeople : searchShows;
-        searchFn(searchQuery, controller.signal)
+        searchFn(searchQuery)
             .then((results) => {
+                if (!isCurrent) return;
                 setSearchResults(results);
                 if (results.length === 0) {
                     setSearchError(`No results found for "${searchQuery}".`);
                 }
             })
             .catch((err) => {
-                if (err.name === 'AbortError') return;
-                console.error('[FlickFrame] Search error:', err.message ?? err);
-                setSearchError(`Search failed: ${err.message ?? 'Network request failed'}`);
+                if (!isCurrent) return;
+                console.error('[FlickFrame] Search error:', err.message);
+                setSearchError('Search failed. Please try again.');
             })
             .finally(() => setSearchLoading(false));
 
-        return () => controller.abort();
+        return () => {
+            isCurrent = false;
+        };
     }, [searchQuery, activeTab]);
 
     const handleSelectShow = (show) => {

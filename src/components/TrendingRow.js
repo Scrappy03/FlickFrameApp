@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     listContent: {
-        paddingHorizontal: 16,
+        paddingLeft: 16,
+        paddingRight: 32,
         gap: 10,
     },
     card: {

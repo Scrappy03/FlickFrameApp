@@ -18,19 +18,17 @@ export function getShow(id) {
     return tvFetch(`${baseUrl}/shows/${id}`);
 }
 
-export async function searchShows(query, signal) {
-    const results = await tvFetch(
-        `${baseUrl}/search/shows?q=${encodeURIComponent(query)}`,
-        { signal }
-    );
+export function getSeasons(id) {
+    return tvFetch(`${baseUrl}/shows/${id}/seasons`);
+}
+
+export async function searchShows(query) {
+    const results = await tvFetch(`${baseUrl}/search/shows?q=${encodeURIComponent(query)}`);
     return results.map((r) => r.show);
 }
 
-export async function searchPeople(query, signal) {
-    const results = await tvFetch(
-        `${baseUrl}/search/people?q=${encodeURIComponent(query)}`,
-        { signal }
-    );
+export async function searchPeople(query) {
+    const results = await tvFetch(`${baseUrl}/search/people?q=${encodeURIComponent(query)}`);
     return results.map((r) => r.person);
 }
 
