@@ -66,7 +66,9 @@ function MainScreen({ navigation }) {
             focusSearch={focusSearch}
           />
         )}
-        {activeScreen === 'watchlist' && <WatchlistScreen />}
+        {activeScreen === 'watchlist' && (
+          <WatchlistScreen onBrowseShows={() => setActiveScreen('discover')} />
+        )}
         {activeScreen === 'profile' && <ProfileScreen />}
       </View>
       <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
