@@ -50,11 +50,21 @@ function MainScreen({ navigation }) {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
       <StatusBar style="dark" />
-      <Header activeScreen={activeScreen} onSearchPress={() => { setActiveScreen('discover'); setFocusSearch(n => n + 1); }} />
+      <SafeAreaView edges={['top']} style={styles.topSafeArea}>
+        <Header activeScreen={activeScreen} onSearchPress={() => { setActiveScreen('discover'); setFocusSearch(n => n + 1); }} />
+      </SafeAreaView>
       <View style={styles.content}>
-        {activeScreen === 'home' && <HomeScreen navigation={navigation} />}
+        {activeScreen === 'home' && (
+          <HomeScreen
+            navigation={navigation}
+            onBrowseShows={() => {
+              setActiveTab('tv');
+              setActiveScreen('discover');
+            }}
+          />
+        )}
         {activeScreen === 'discover' && (
           <DiscoverScreen
             navigation={navigation}
@@ -71,8 +81,10 @@ function MainScreen({ navigation }) {
         )}
         {activeScreen === 'profile' && <ProfileScreen />}
       </View>
-      <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
-    </SafeAreaView>
+      <SafeAreaView edges={['bottom']} style={styles.bottomSafeArea}>
+        <BottomTabBar activeTab={activeScreen} onChange={setActiveScreen} />
+      </SafeAreaView>
+    </View>
   );
 }
 
@@ -92,10 +104,16 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    backgroundColor: '#F3F4F6',
+  },
+  topSafeArea: {
     backgroundColor: '#ffffff',
   },
   content: {
     flex: 1,
     backgroundColor: '#F3F4F6',
+  },
+  bottomSafeArea: {
+    backgroundColor: '#ffffff',
   },
 });

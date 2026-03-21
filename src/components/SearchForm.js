@@ -1,10 +1,14 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { Search, X } from 'lucide-react-native';
 
-export default function SearchForm({ onSearch, type, shouldFocus }) {
+export default function SearchForm({ activeQuery, onSearch, type, shouldFocus }) {
     const [text, setText] = useState('');
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        setText(activeQuery ?? '');
+    }, [activeQuery]);
 
     useEffect(() => {
         if (shouldFocus) {

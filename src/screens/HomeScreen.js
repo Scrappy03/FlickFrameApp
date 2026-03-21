@@ -6,7 +6,7 @@ import TrendingRow from '../components/TrendingRow';
 
 const featuredShowId = 19; // Supernatural
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, onBrowseShows }) {
     const [featuredShow, setFeaturedShow] = useState(null);
     const [trendingShows, setTrendingShows] = useState([]);
     const [newReleases, setNewReleases] = useState([]);
@@ -23,7 +23,16 @@ export default function HomeScreen({ navigation }) {
 
     return (
         <ScrollView style={styles.container}>
-            {featuredShow && <FeaturedBanner show={featuredShow} />}
+            {featuredShow && (
+                <FeaturedBanner
+                    show={featuredShow}
+                    onPress={() => handleSelectShow(featuredShow)}
+                    onPrimaryAction={() => handleSelectShow(featuredShow)}
+                    onSecondaryAction={onBrowseShows}
+                    primaryActionLabel="View Details"
+                    secondaryActionLabel="Browse Shows"
+                />
+            )}
             {trendingShows.length > 0 && (
                 <TrendingRow heading="Trending Now" shows={trendingShows} onSelectShow={handleSelectShow} />
             )}

@@ -14,11 +14,14 @@ function stripHtml(text) {
 export default function FeaturedBanner({
     show,
     onPress,
-    onTrailerPress,
-    onWatchlistPress,
+    onPrimaryAction,
+    onSecondaryAction,
+    primaryActionLabel = 'View Details',
+    secondaryActionLabel = 'Browse Shows',
 }) {
     const image = show?.image?.original ?? show?.image?.medium ?? null;
     const summary = stripHtml(show?.summary);
+    const hasActions = Boolean(onPrimaryAction || onSecondaryAction);
 
     if (!image) return null;
 
@@ -46,21 +49,33 @@ export default function FeaturedBanner({
                     </Text>
                 ) : null}
 
-                <View style={styles.buttons}>
-                    <Pressable
-                        onPress={onTrailerPress}
-                        style={[styles.button, styles.trailerButton]}
-                    >
-                        <Text style={styles.trailerButtonText}>Trailer</Text>
-                    </Pressable>
+                {hasActions && (
+                    <View style={styles.buttons}>
+                        {onPrimaryAction && (
+                            <Pressable
+                                onPress={(event) => {
+                                    event.stopPropagation();
+                                    onPrimaryAction();
+                                }}
+                                style={[styles.button, styles.primaryButton]}
+                            >
+                                <Text style={styles.primaryButtonText}>{primaryActionLabel}</Text>
+                            </Pressable>
+                        )}
 
-                    <Pressable
-                        onPress={onWatchlistPress}
-                        style={[styles.button, styles.watchlistButton]}
-                    >
-                        <Text style={styles.watchlistButtonText}>+ Watchlist</Text>
-                    </Pressable>
-                </View>
+                        {onSecondaryAction && (
+                            <Pressable
+                                onPress={(event) => {
+                                    event.stopPropagation();
+                                    onSecondaryAction();
+                                }}
+                                style={[styles.button, styles.secondaryButton]}
+                            >
+                                <Text style={styles.secondaryButtonText}>{secondaryActionLabel}</Text>
+                            </Pressable>
+                        )}
+                    </View>
+                )}
             </LinearGradient>
         </Pressable>
     );
@@ -112,12 +127,12 @@ const styles = StyleSheet.create({
     },
     buttons: { flexDirection: 'row', gap: 12, marginTop: 16 },
     button: { flex: 1, paddingVertical: 16, borderRadius: 8, alignItems: 'center' },
-    trailerButton: {
+    primaryButton: {
         backgroundColor: 'rgba(255, 255, 255, 0.25)',
         borderWidth: 0.5,
         borderColor: 'rgba(255, 255, 255, 0.25)',
     },
-    trailerButtonText: { color: '#ffffff', fontSize: 14, fontWeight: '600' },
-    watchlistButton: { backgroundColor: '#2563EB' },
-    watchlistButtonText: { color: '#ffffff', fontSize: 14, fontWeight: '600' },
+    primaryButtonText: { color: '#ffffff', fontSize: 14, fontWeight: '600' },
+    secondaryButton: { backgroundColor: '#2563EB' },
+    secondaryButtonText: { color: '#ffffff', fontSize: 14, fontWeight: '600' },
 });

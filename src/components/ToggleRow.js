@@ -4,7 +4,7 @@ export default function ToggleRow({ activeTab, onChange }) {
     return (
         <View style={styles.row}>
             <Pressable
-                onPressIn={() => onChange('tv')}
+                onPress={() => onChange('tv')}
                 style={[styles.item, activeTab === 'tv' && styles.itemActive]}
             >
                 <Text style={[styles.text, activeTab === 'tv' && styles.textActive]}>
@@ -12,7 +12,7 @@ export default function ToggleRow({ activeTab, onChange }) {
                 </Text>
             </Pressable>
             <Pressable
-                onPressIn={() => onChange('celebs')}
+                onPress={() => onChange('celebs')}
                 style={[styles.item, activeTab === 'celebs' && styles.itemActive]}
             >
                 <Text style={[styles.text, activeTab === 'celebs' && styles.textActive]}>
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     },
     itemActive: {
         backgroundColor: '#ffffff',
-
     },
     text: {
         fontSize: 14,

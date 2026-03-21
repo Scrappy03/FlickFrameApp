@@ -36,7 +36,21 @@ export default function ShowDetailScreen({ route, navigation }) {
         : null;
 
     return (
-        <SafeAreaView style={styles.screen}>
+        <View style={styles.screen}>
+            <SafeAreaView edges={['top']} style={styles.topSafeArea}>
+                <View style={styles.header}>
+                    <Pressable onPress={() => navigation.goBack()} style={styles.headerSide}>
+                        <ArrowLeft size={22} color="#111111" />
+                    </Pressable>
+
+                    <Text style={styles.headerBrand}>
+                        <Text style={styles.headerBrandBlue}>Flick</Text>Frame
+                    </Text>
+
+                    <View style={styles.headerSide} />
+                </View>
+            </SafeAreaView>
+
             <ScrollView contentContainerStyle={styles.container} bounces={false}>
                 <View style={styles.heroContainer}>
                     {image && (
@@ -76,10 +90,6 @@ export default function ShowDetailScreen({ route, navigation }) {
                             </View>
                         )}
                     </LinearGradient>
-
-                    <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={20} color="#ffffff" />
-                    </Pressable>
                 </View>
 
                 {summary && (
@@ -89,7 +99,7 @@ export default function ShowDetailScreen({ route, navigation }) {
                     </View>
                 )}
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -97,6 +107,32 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: '#F3F4F6',
+    },
+    topSafeArea: {
+        backgroundColor: '#ffffff',
+    },
+    header: {
+        height: 56,
+        paddingHorizontal: 16,
+        backgroundColor: '#ffffff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#E6E6E6',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    headerSide: {
+        width: 40,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+    },
+    headerBrand: {
+        fontSize: 24,
+        fontFamily: 'Oswald_600SemiBold',
+        color: '#111111',
+    },
+    headerBrandBlue: {
+        color: '#2563EB',
     },
     container: {
         paddingBottom: 40,
@@ -120,17 +156,6 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingBottom: 26,
         gap: 10,
-    },
-    backButton: {
-        position: 'absolute',
-        top: 16,
-        left: 16,
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        backgroundColor: 'rgba(0,0,0,0.45)',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     title: {
         fontSize: 28,
