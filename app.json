@@ -15,6 +15,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "uk.ac.uos.flickframe",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -25,6 +26,11 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5ad00cf9-e6af-4fb3-9732-2bdae11fa57b"
+      }
+    }
   }
 }
